@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch } from "../../app/hooks";
-import avatarDeadImg from "../../common/assets/gameJump/avatar-game-over.png";
-import avatarImg from "../../common/assets/gameJump/avatar.gif";
-import clouds from "../../common/assets/gameJump/clouds.png";
-import pipeImg from "../../common/assets/gameJump/pipe.png";
+import avatarDeadImg from "./assets/avatar-game-over.png";
+import avatarImg from "./assets/avatar.gif";
+import cloudsImg from "./assets/clouds.png";
+import pipeImg from "./assets/pipe.png";
 import { Counter } from "../counter/Counter";
 import { counterActions } from "../counter/counterSlice";
 import { Avatar } from "./entities/Avatar";
@@ -15,15 +15,15 @@ import { StatusGameType } from "./gameJumpTypes";
 export const GameJump = () => {
   const dispatch = useAppDispatch();
   const element = window;
-  const marioRef = useRef<HTMLDivElement>(null);
+  const avatarRef = useRef<HTMLDivElement>(null);
   const pipeRef = useRef<HTMLImageElement>(null);
 
   const [statusGame, setStatusGame] = useState<StatusGameType>("running");
   const [game, setGame] = useState<Game>();
 
   useEffect(() => {
-    if (marioRef.current && pipeRef.current) {
-      const avatar = new Avatar(marioRef.current);
+    if (avatarRef.current && pipeRef.current) {
+      const avatar = new Avatar(avatarRef.current);
       const obstacle = new Obstacle(pipeRef.current);
       const game = new Game(avatar, obstacle, setStatusGame, () =>
         dispatch(counterActions.increment())
@@ -37,7 +37,7 @@ export const GameJump = () => {
       });
       setGame(game);
     }
-  }, [marioRef, element, dispatch]);
+  }, [avatarRef, element, dispatch]);
 
   return (
     <div className="game-board-content">
@@ -45,8 +45,8 @@ export const GameJump = () => {
         <Counter />
       </div>
       <div className="game-board-body">
-        <img className="clouds animate-clouds" src={clouds} alt="" />
-        <div ref={marioRef} className="avatar">
+        <img className="clouds animate-clouds" src={cloudsImg} alt="" />
+        <div ref={avatarRef} className="avatar">
           {statusGame === "running" && (
             <img className="img-live-avatar" src={avatarImg} alt="" />
           )}

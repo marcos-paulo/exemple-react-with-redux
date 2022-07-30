@@ -31,7 +31,7 @@ const FloatingNotification: React.FC<Props> = ({
         dispatch(appNotificationActions.removeNotificationById(id));
       }, time);
     }
-  }, [{ id, message, time }]);
+  }, [id, message, time, dispatch]);
 
   const removeNotification = () => {
     dispatch(appNotificationActions.removeNotificationById(id));
