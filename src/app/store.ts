@@ -7,6 +7,8 @@ import notificationReducers from "../features/appNotification/appNotificationSli
 import counterReducers from "../features/counter/counterSlice";
 
 const rootReducer = combineReducers({
+  counter: counterReducers,
+  notification: notificationReducers,
 });
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) =>
