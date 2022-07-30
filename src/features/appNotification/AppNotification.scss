@@ -1,0 +1,62 @@
+.notification-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column-reverse;
+  bottom: 20px;
+  right: 20px;
+
+  > .floating-notification {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+    background-color: aqua;
+
+    > .floating-notification-body {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px;
+      min-height: 3rem;
+
+      > button {
+        margin-left: 10px;
+      }
+    }
+
+    > .floating-notification-footer {
+      background-color: black;
+      color: aliceblue;
+      position: relative;
+      height: 0.5em;
+      animation: footer-animation 4000ms linear infinite;
+      transform-origin: right;
+    }
+
+    // .floating-notification-footer::before {
+    //   content: "";
+    //   background-color: #ccff99;
+    //   display: block;
+    //   position: absolute;
+    //   inset: 0;
+    //   // z-index: -1;
+    //   transition: transform 5000ms ;
+    //   transform-origin: right;
+    //   transform: scalex(0);
+    // }
+
+    // .floating-notification-footer:hover::before {
+    //   transform: scalex(0);
+    // }
+
+    @keyframes footer-animation {
+      from {
+        transform: scalex(1);
+        // background-color: aqua;
+      }
+      to {
+        transform: scalex(0);
+        // background-color: black;
+      }
+    }
+  }
+}
