@@ -1,9 +1,8 @@
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Counter } from "../features/counter/Counter";
 import { AppNotification } from "../features/appNotification/AppNotification";
-import { setupStore } from "./store";
 import { GameJump } from "../features/gameJump/GameJump";
+import { setupStore } from "./store";
 
 function App() {
   return (
