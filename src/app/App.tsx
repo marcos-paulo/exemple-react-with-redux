@@ -10,8 +10,7 @@ function App() {
     <BrowserRouter>
       <Provider store={setupStore()}>
         <Routes>
-          <Route path="/counter" element={<Counter />} />
-          <Route path="/gameJump" element={<GameJump />} />
+          <Route path="/" element={<GameJump />} />
         </Routes>
         <AppNotification />
       </Provider>
