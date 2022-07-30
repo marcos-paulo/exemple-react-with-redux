@@ -1,16 +1,19 @@
-<img src="https://img.shields.io/badge/status-Development-yellowgreen">
-
-# Sumary
-
-- [Project Description](#project-description)
-- [Available Scripts](#available-scripts)
-
-# Project Description
+## Project Description <img src="https://img.shields.io/badge/status-Development-yellowgreen">
 
 This project has a purely didactic character, here a series of different features of the most diverse natures will be implemented, such as simple games, animations and others.
 
 - each feature will implement its own slice redux, and its internal components, images, ..., will be stored in features/featuresName/[components, assets, ...].
-- the global components that will be shared between features will be stored in cmmon/[components, assets, ...].
+- the global components that will be shared between features will be stored in common/[components, assets, ...].
+
+## Table of contents
+
+- [Project Description](#project-description)
+- [Available Scripts](#available-scripts)
+
+## Status
+
+![](https://img.shields.io/badge/Status-Development-yellowgreen)
+![](https://img.shields.io/badge/Tests-passing-success)
 
 ## Available Scripts
 
