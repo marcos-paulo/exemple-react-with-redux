@@ -1,6 +1,16 @@
-# Getting Started with Create React App
+<img src="https://img.shields.io/badge/status-Development-yellowgreen">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Sumary
+
+- [Project Description](#project-description)
+- [Available Scripts](#available-scripts)
+
+# Project Description
+
+This project has a purely didactic character, here a series of different features of the most diverse natures will be implemented, such as simple games, animations and others.
+
+- each feature will implement its own slice redux, and its internal components, images, ..., will be stored in features/featuresName/[components, assets, ...].
+- the global components that will be shared between features will be stored in cmmon/[components, assets, ...].
 
 ## Available Scripts
 
