@@ -1,67 +1,63 @@
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import "./AppNotification.scss";
-import {
-  appNotificationActions,
-  appNotificationSelector,
-} from "./appNotificationSlice";
-import { AppNotification as AppNotificationType } from "./appNotificationTypes";
+import { useEffect, useState } from "react";
+import { useAppSelector } from "../../app/hooks";
+import "./AlertNotifications.scss";
+import { appNotificationSelector } from "./alertNotificationSlice";
+import { AppNotification } from "./alertNotificationTypes";
+import { Alert } from "./components/Alert";
 
-interface Props {
-  appNotification: AppNotificationType;
+interface NotificationState {
+  id: string;
+  appNotification: AppNotification | undefined;
 }
-const FloatingNotification: React.FC<Props> = ({
-  appNotification: { id, message, time },
-}) => {
-  const dispatch = useAppDispatch();
-  var colors = [
-    "red",
-    "blue",
-    "green",
-    "teal",
-    "rosybrown",
-    "tan",
-    "plum",
-    "saddlebrown",
-  ];
+
+export const AlertNotifications = () => {
+  const [notificationsState, setNotificationsState] = useState<
+    NotificationState[]
+  >([]);
+  const notifications = useAppSelector(appNotificationSelector.notifications);
 
   useEffect(() => {
-    if (time) {
-      setTimeout(() => {
-        dispatch(appNotificationActions.removeNotificationById(id));
-      }, time);
-    }
-  }, [id, message, time, dispatch]);
+    if (notifications.length !== 0) {
+      const notContainsInNotificationState = (a: AppNotification) =>
+        notificationsState.filter((e) => e.id === a.id).length === 0;
 
-  const removeNotification = () => {
-    dispatch(appNotificationActions.removeNotificationById(id));
-  };
+      const addedNotificationsState: NotificationState[] = [];
+      notifications.forEach((notification) => {
+        if (notContainsInNotificationState(notification)) {
+          const notificationState: NotificationState = {
+            id: notification.id,
+            appNotification: notification,
+          };
+          addedNotificationsState.push(notificationState);
+        }
+      });
 
-  return (
-    <div
-      className="floating-notification"
-      style={{
-        backgroundColor: colors[Math.floor(Math.random() * colors.length)],
-      }}
-    >
-      <div className="floating-notification-body" key={id}>
-        <p>{message}</p>
-        <button onClick={(event) => removeNotification()}>x</button>
-      </div>
-      <div className="floating-notification-footer"></div>
-    </div>
-  );
-};
+      const notContainsInNotifications = (a: NotificationState) =>
+        notifications.filter((e) => e.id === a.id).length === 0;
 
-export const AppNotification = () => {
-  const notifications = useAppSelector(appNotificationSelector.notifications);
+      const temp = notificationsState.map((notificationState) => {
+        if (notContainsInNotifications(notificationState)) {
+          return {
+            ...notificationState,
+            appNotification: undefined,
+          } as NotificationState;
+        }
+        return notificationState;
+      });
+
+      setNotificationsState([...temp, ...addedNotificationsState]);
+    } else setNotificationsState([]);
+  }, [notifications, notificationsState]);
+
   return (
     <>
       {notifications.length > 0 && (
         <div className="notification-container">
-          {notifications
-            .map((notification, index) => (
-              <FloatingNotification appNotification={notification} />
+          {notificationsState
+            .map(({ id, appNotification }) => (
+              <div key={id}>
+                {appNotification && <Alert appNotification={appNotification} />}
+              </div>
             ))
             .reverse()}
         </div>
