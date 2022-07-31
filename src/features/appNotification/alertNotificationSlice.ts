@@ -5,7 +5,7 @@ import {
   isPayloadActionContainAppNotification,
   PayloadAppNotification,
   ReducerAppNotification,
-} from "./appNotificationTypes";
+} from "./alertNotificationTypes";
 
 const initialState: AppNotificationState = {
   notifications: [],

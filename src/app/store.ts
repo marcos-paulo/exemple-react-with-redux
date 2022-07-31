@@ -3,7 +3,7 @@ import {
   configureStore,
   PreloadedState,
 } from "@reduxjs/toolkit";
-import notificationReducers from "../features/appNotification/appNotificationSlice";
+import notificationReducers from "../features/appNotification/alertNotificationSlice";
 import counterReducers from "../features/counter/counterSlice";
 
 const rootReducer = combineReducers({

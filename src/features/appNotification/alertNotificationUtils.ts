@@ -2,7 +2,7 @@ import {
   AppNotification,
   GroupTemplatesNotification,
   TypeAppNotificationEnum,
-} from "./appNotificationTypes";
+} from "./alertNotificationTypes";
 
 export const prepareNotification = (appNotification: () => AppNotification) => {
   return (args?: any) => ({

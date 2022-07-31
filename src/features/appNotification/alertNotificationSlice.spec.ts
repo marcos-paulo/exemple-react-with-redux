@@ -1,7 +1,7 @@
 import {
   isPayloadActionContainAppNotification,
   TypeAppNotificationEnum,
-} from "./appNotificationTypes";
+} from "./alertNotificationTypes";
 
 describe("isPayloadActionContainAppNotification", () => {
   it("failure payload type string", () => {

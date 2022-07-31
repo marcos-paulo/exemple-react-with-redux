@@ -3,7 +3,7 @@ import { RootState } from "../../app/store";
 import {
   groupTemplateNotification,
   prepareNotification,
-} from "../appNotification/appNotificationUtils";
+} from "../appNotification/alertNotificationUtils";
 
 const counterSlice = createSlice({
   name: "counter",
