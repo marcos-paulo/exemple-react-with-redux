@@ -28,15 +28,24 @@ export type GroupTemplatesNotification = Record<
 
 /**  Types for Redux*/
 
-export interface AppNotificationState {
-  notifications: AppNotification[];
+/** Is used in notification rendering */
+export interface NoticeAlert {
+  id: string;
+  appNotification: AppNotification | undefined;
 }
 
+/** InitialState type in appNotificationSlice */
+export interface AppNotificationState {
+  notices: NoticeAlert[];
+}
+
+/** PayloadAction type in  reducers - appNotificationSlice */
 export interface PayloadAppNotification {
   appNotification: AppNotification;
 }
 
-export type ReducerAppNotification<T> = CaseReducer<
+/** Custom Reducer type in reducers - appNotificationsSlice */
+export type ReducerAppNotification<T = void> = CaseReducer<
   AppNotificationState,
   PayloadAction<T>
 >;

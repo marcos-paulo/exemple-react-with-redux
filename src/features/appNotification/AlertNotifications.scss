@@ -61,11 +61,11 @@
       position: absolute;
       inset: 0;
       border-radius: 15px;
-      animation: footer-animation linear infinite;
+      animation: alert-progress-bar-animation ease;
       animation-duration: inherit;
     }
 
-    @keyframes footer-animation {
+    @keyframes alert-progress-bar-animation {
       from {
         left: 0;
       }

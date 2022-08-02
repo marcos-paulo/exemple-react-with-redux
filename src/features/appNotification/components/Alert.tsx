@@ -6,7 +6,7 @@ import { AppNotification } from "../alertNotificationTypes";
 interface Props {
   appNotification: AppNotification;
 }
-export const Alert: React.FC<Props> = ({
+export const AlertComponent: React.FC<Props> = ({
   appNotification: { id, message, time },
 }) => {
   const dispatch = useAppDispatch();
