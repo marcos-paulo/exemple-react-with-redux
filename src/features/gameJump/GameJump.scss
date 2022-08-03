@@ -1,27 +1,32 @@
 .game-board-content {
-  --width-avatar: 150px;
-  --dead-avatar: 75px;
-  --dead-avatar-margin: 50px;
-  --jump-avatar: 180px;
+  --avatar-width: 70px;
+  --avatar-height: 120px;
+  --avatar-left: 10%;
+
   --clouds-width: 550px;
   --clouds-right: -550px;
+
   --pipe-width: 80px;
   --pipe-right: -80px;
 
   --clouds-animate-duration: 15s;
-  --jump-animate-duration: 500ms;
   --pipe-animate-duration: 1500ms;
 
   @media screen and(max-width: 600px) {
-    --width-avatar: 50px;
-    --dead-avatar: 25px;
-    --dead-avatar-margin: 17px;
-    --jump-avatar: 60px;
+    --avatar-width: 25px;
+    --avatar-height: 40px;
+    --avatar-left: 85px;
+
     --clouds-width: 183px;
     --clouds-right: -183px;
+
     --pipe-width: 27px;
     --pipe-right: -27px;
   }
+}
+
+body {
+  user-select: none;
 }
 
 .game-board-content {
@@ -29,15 +34,6 @@
   justify-content: center;
   background-color: #333;
   height: 100vh;
-
-  .game-board-header {
-    position: absolute;
-    z-index: 2;
-    border: 1px solid #333;
-    border-radius: 15px;
-    margin-top: 1em;
-    padding: 0 2em;
-  }
 
   .game-board-body {
     opacity: 50%;
@@ -49,91 +45,6 @@
     position: relative;
     overflow: hidden;
     background: linear-gradient(#87ceeb, #e0f6ff);
-
-    .clouds {
-      position: absolute;
-      width: var(--clouds-width);
-    }
-
-    .animate-clouds {
-      animation: clouds-animation var(--clouds-animate-duration) infinite linear;
-    }
-
-    .avatar {
-      display: flex;
-      align-items: flex-end;
-      position: absolute;
-      bottom: 0;
-
-      .img-live-avatar {
-        bottom: 0;
-        width: var(--width-avatar);
-      }
-
-      .img-dead-avatar {
-        width: var(--dead-avatar);
-        margin-left: var(--dead-avatar-margin);
-      }
-
-      .img-winning-avatar {
-        width: 0;
-      }
-    }
-
-    .dead {
-      animation: none !important;
-    }
-
-    .jump {
-      animation: jump var(--jump-animate-duration) ease-out;
-    }
-
-    .pipe {
-      position: absolute;
-      bottom: 0;
-      width: var(--pipe-width);
-    }
-
-    .animate-pipe {
-      animation: pipe-animation var(--pipe-animate-duration) linear infinite;
-    }
-
-    @keyframes pipe-animation {
-      from {
-        right: var(--pipe-right);
-      }
-
-      to {
-        right: 100%;
-      }
-    }
-
-    @keyframes jump {
-      0% {
-        bottom: 0;
-      }
-      40% {
-        bottom: var(--jump-avatar);
-      }
-      50% {
-        bottom: var(--jump-avatar);
-      }
-      60% {
-        bottom: var(--jump-avatar);
-      }
-      100% {
-        bottom: 0;
-      }
-    }
-
-    @keyframes clouds-animation {
-      from {
-        right: var(--clouds-right);
-      }
-      to {
-        right: 100%;
-      }
-    }
   }
 
   .game-start-panel {

@@ -1,30 +1,14 @@
-export class Obstacle {
-  constructor(private _obstacleImg: HTMLImageElement) {}
+import { Properties } from "./Types";
 
-  getPositionLeft() {
-    return this._obstacleImg.offsetLeft;
+export class Obstacle extends Properties {
+  constructor(private obstacleImg: HTMLImageElement) {
+    super(obstacleImg, "left");
   }
 
-  getHeightObstacle() {
-    return this._obstacleImg.offsetHeight;
-  }
+  startObstacle = () => this.obstacleImg.classList.add("animate-pipe");
 
-  blockLeftPosition() {
-    const screenPosition = this.getPositionLeft();
-    this._obstacleImg.style.left = `${screenPosition}px`;
-  }
+  stopObstacle = () => this.obstacleImg.classList.remove("animate-pipe");
 
-  unblockLeftPosition() {
-    this._obstacleImg.style.removeProperty("left");
-  }
-
-  startObstacle() {
-    this.unblockLeftPosition();
-    this._obstacleImg.classList.add("animate-pipe");
-  }
-
-  stopObstacle() {
-    this.blockLeftPosition();
-    this._obstacleImg.classList.remove("animate-pipe");
-  }
+  setAnimateTime = (animateTime: number) =>
+    this.setProperty("--obstacle-animation-duration", animateTime + "ms");
 }

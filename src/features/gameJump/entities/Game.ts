@@ -1,6 +1,7 @@
 import { StatusGameType } from "../gameJumpTypes";
 import { Avatar } from "./Avatar";
 import { Obstacle } from "./Obstacle";
+import { Scenery } from "./Scenery";
 
 export class Game {
   private jumps = 0;
@@ -9,54 +10,74 @@ export class Game {
   constructor(
     public avatar: Avatar,
     public obstacle: Obstacle,
-    private statusGame: (status: StatusGameType) => void,
-    private callbackOnIncrementScore: () => void,
-    private callbackOnFinalityGame?: () => void
+    public scenery: Scenery,
+    private setStatusGameCallback: (status: StatusGameType) => void,
+    private incrementScoreCallback: () => void,
+    private finalityGameCallback?: () => void
   ) {
-    avatar.addCallBackToJump(() => {
+    avatar.addToJumpCallback(() => {
       this.jumps += 1;
     });
+    avatar.setJumpTime(500);
+    avatar.setMaxBottom(180);
+
+    obstacle.setAnimateTime(1500);
   }
 
   startGame() {
-    this.statusGame("running");
+    this.jumps = 0;
+    this.countedJumps = 0;
+    this.setStatusGameCallback("running");
+
     this.avatar.resuscitate();
+    this.avatar.unlockPosition();
+
     this.obstacle.startObstacle();
+    this.obstacle.unlockPosition();
+
+    this.scenery.unlockAnimation();
+    this.scenery.unlockPosition();
+
     const loop = setInterval(() => {
-      if (this.isGameOver()) {
-        this.endGameOver();
+      if (this.isCollided()) {
+        this.gameOver();
         clearInterval(loop);
-      } else if (this.isManagedToJump() && this.countedJumps !== this.jumps) {
-        this.callbackOnIncrementScore();
+      } else if (this.isValidJump()) {
+        this.incrementScoreCallback();
         this.countedJumps = this.jumps;
       }
     }, 10);
   }
 
-  private isAvatarCollidedWithThePipe() {
-    const avatarWidth = this.avatar.getWidthAvatar();
-    const obstacleHeight = this.obstacle.getHeightObstacle();
-    return (
-      this.obstacle.getPositionLeft() <= avatarWidth &&
-      this.obstacle.getPositionLeft() > -(avatarWidth * 0.23) &&
-      this.avatar.getHeightOfJumpNow() < obstacleHeight
-    );
+  private isOvercomingTheObstacle = () =>
+    this.avatar.getLeft() + this.avatar.getWidth() >= this.obstacle.getLeft();
+
+  private isJumping = () => this.avatar.getBottom() > this.obstacle.getHeight();
+
+  private isJumpedOverAnObstacle = () =>
+    this.avatar.getRight() + this.avatar.getWidth() < this.obstacle.getRight();
+
+  private isCollided = () =>
+    this.isOvercomingTheObstacle() &&
+    !this.isJumping() &&
+    !this.isJumpedOverAnObstacle();
+
+  private isValidJump() {
+    // isso só da certo por que o pipe ja tem passado da margem o que faz com que seja falso
+    return this.isJumpedOverAnObstacle() && this.countedJumps !== this.jumps;
   }
 
-  isManagedToJump() {
-    const avatarWidth = this.avatar.getWidthAvatar();
-    const obstaclePositionLeft = this.obstacle.getPositionLeft();
-    return obstaclePositionLeft <= -(avatarWidth * 0.23);
-  }
+  private gameOver() {
+    this.setStatusGameCallback("game-over");
+    if (this.finalityGameCallback) this.finalityGameCallback();
 
-  private isGameOver() {
-    return this.isAvatarCollidedWithThePipe();
-  }
-
-  private endGameOver() {
-    this.statusGame("game-over");
-    if (this.callbackOnFinalityGame) this.callbackOnFinalityGame();
+    this.obstacle.lockPosition();
     this.obstacle.stopObstacle();
-    this.avatar.die();
+
+    this.avatar.lockPosition();
+    this.avatar.toDie();
+
+    this.scenery.lockPosition();
+    this.scenery.lockAnimation();
   }
 }

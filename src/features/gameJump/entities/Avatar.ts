@@ -1,54 +1,61 @@
-export class Avatar {
-  private callbackToJump: () => void = () => {};
-  constructor(private _avatar: HTMLDivElement) {}
+import { Properties } from "./Types";
 
-  resuscitate() {
-    this.unblockBottomPosition();
-    this._avatar.classList.remove("dead");
+export class Avatar extends Properties {
+  private jumpTime: number = 500;
+  private callbackToJump: () => void = () => {};
+
+  constructor(private avatar: HTMLDivElement) {
+    super(avatar, "bottom");
   }
 
-  die() {
-    this.blockBottomPosition();
-    this._avatar.classList.add("dead");
+  resuscitate() {
+    this.avatar.classList.remove("dead");
+  }
+
+  toDie() {
+    this.avatar.classList.add("dead");
   }
 
   jump() {
-    if (!this.isDead() && !this.isJumping()) {
-      this._avatar?.classList.add("jump");
-      console.log(window.getComputedStyle(this._avatar).animationDuration);
+    if (!this.isDead() && !this.isJumped()) {
+      this.avatar?.classList.add("jump");
+      const t = Date.now();
       this.callbackToJump();
       setTimeout(() => {
-        this._avatar?.classList.remove("jump");
-      }, 501);
+        this.avatar?.classList.remove("jump");
+        console.log("log", Date.now() - t);
+      }, this.jumpTime);
     }
   }
 
-  addCallBackToJump(callback: () => void) {
+  /** the higher the value, the longer the jump time will be */
+  setJumpTime(jumpTime: number) {
+    this.jumpTime = jumpTime;
+    this.setProperty("--avatar-jump-animate-duration", jumpTime + "ms");
+  }
+
+  /** maximum height the character will go to during the jump */
+  setMaxBottom(maxBottom: number) {
+    this.setProperty("--avatar-animate-max-bottom", maxBottom + "px");
+  }
+
+  addToJumpCallback(callback: () => void) {
     this.callbackToJump = callback;
   }
 
-  getHeightOfJumpNow() {
-    return +window.getComputedStyle(this._avatar).bottom.replace("px", "");
-  }
-
-  getWidthAvatar() {
-    return this._avatar.offsetWidth * 0.8;
-  }
-
-  private isJumping() {
-    return this._avatar.classList.contains("jump");
+  private isJumped() {
+    return this.avatar.classList.contains("jump");
   }
 
   private isDead() {
-    return this._avatar.classList.contains("dead");
+    return this.avatar.classList.contains("dead");
   }
 
-  private blockBottomPosition() {
-    const screenPosition = this.getHeightOfJumpNow();
-    this._avatar.style.bottom = `${screenPosition}px`;
-  }
+  // lockPosition = () => {
+  //   this.avatar.style.bottom = `${this.getBottom()}px`;
+  // };
 
-  private unblockBottomPosition() {
-    this._avatar.style.removeProperty("bottom");
-  }
+  // unlockPosition = () => {
+  //   this.avatar.style.removeProperty("bottom");
+  // };
 }

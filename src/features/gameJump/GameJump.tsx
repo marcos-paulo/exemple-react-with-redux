@@ -1,81 +1,77 @@
 import { useEffect, useRef, useState } from "react";
+
 import { useAppDispatch } from "../../app/hooks";
-import avatarDeadImg from "./assets/avatar-game-over.png";
-import avatarImg from "./assets/avatar.gif";
-import cloudsImg from "./assets/clouds.png";
-import pipeImg from "./assets/pipe.png";
-import { Counter } from "../counter/Counter";
 import { counterActions } from "../counter/counterSlice";
+
+import { AvatarComponent } from "./components/AvatarComponent";
+import { GameCounterComponent } from "./components/GameCounterComponent";
+import { ObstacleComponent } from "./components/ObstacleComponent";
+import { SceneryComponent } from "./components/SceneryComponent";
+import { StartGameComponent } from "./components/StartGameComponent";
+
 import { Avatar } from "./entities/Avatar";
 import { Game } from "./entities/Game";
 import { Obstacle } from "./entities/Obstacle";
-import "./GameJump.scss";
+import { Scenery } from "./entities/Scenery";
 import { StatusGameType } from "./gameJumpTypes";
 
-export const GameJump = () => {
-  const dispatch = useAppDispatch();
-  const element = window;
-  const avatarRef = useRef<HTMLDivElement>(null);
-  const pipeRef = useRef<HTMLImageElement>(null);
+import "./GameJump.scss";
 
-  const [statusGame, setStatusGame] = useState<StatusGameType>("running");
+export const GameJump = () => {
+  const [statusGame, setStatusGame] = useState<StatusGameType>("idle");
   const [game, setGame] = useState<Game>();
 
+  const avatarRef = useRef<HTMLDivElement>(null);
+  const obstacleRef = useRef<HTMLImageElement>(null);
+  const sceneryRef = useRef<HTMLImageElement>(null);
+
+  const dispatch = useAppDispatch();
+
+  const startGameHandle = () => {
+    if (game) {
+      game.startGame();
+      dispatch(counterActions.reset());
+    }
+  };
+
   useEffect(() => {
-    if (avatarRef.current && pipeRef.current) {
+    if (avatarRef.current && obstacleRef.current && sceneryRef.current) {
       const avatar = new Avatar(avatarRef.current);
-      const obstacle = new Obstacle(pipeRef.current);
-      const game = new Game(avatar, obstacle, setStatusGame, () =>
+      const obstacle = new Obstacle(obstacleRef.current);
+      const scenery = new Scenery(sceneryRef.current);
+      const game = new Game(avatar, obstacle, scenery, setStatusGame, () =>
         dispatch(counterActions.increment())
       );
-      game.startGame();
-      element.addEventListener("keydown", (event) => {
-        avatar.jump();
-      });
-      element.addEventListener("touchstart", (event) => {
+
+      window.addEventListener("keydown", (event) => {
         avatar.jump();
       });
       setGame(game);
     }
-  }, [avatarRef, element, dispatch]);
+  }, [avatarRef, dispatch]);
 
   return (
-    <div className="game-board-content">
-      <div className="game-board-header">
-        <Counter />
-      </div>
+    <div
+      className="game-board-content"
+      onContextMenu={(e) => e.preventDefault()}
+      onTouchStart={(e) => {
+        e.preventDefault();
+        game?.avatar.jump();
+      }}
+    >
+      <GameCounterComponent />
       <div className="game-board-body">
-        <img className="clouds animate-clouds" src={cloudsImg} alt="" />
-        <div ref={avatarRef} className="avatar">
-          {statusGame === "running" && (
-            <img className="img-live-avatar" src={avatarImg} alt="" />
-          )}
-          {statusGame === "game-over" && (
-            <img className="img-dead-avatar" src={avatarDeadImg} alt="" />
-          )}
-          {statusGame === "winning-game" && (
-            <img className="img-live-avatar" src={avatarImg} alt="" />
-          )}
-        </div>
-        <img
-          ref={pipeRef}
-          className={"pipe " + (statusGame === "running" && "animate-pipe")}
-          src={pipeImg}
-          alt=""
+        <SceneryComponent props={{ ref: sceneryRef }} />
+        <AvatarComponent statusGame={statusGame} props={{ ref: avatarRef }} />
+        <ObstacleComponent
+          statusGame={statusGame}
+          props={{ ref: obstacleRef }}
         />
       </div>
-      {statusGame !== "running" && (
-        <div className="game-start-panel">
-          <button
-            onClick={(event) => {
-              dispatch(counterActions.reset());
-              game?.startGame();
-            }}
-          >
-            Start new Game
-          </button>
-        </div>
-      )}
+      <StartGameComponent
+        statusGame={statusGame}
+        onStartGame={startGameHandle}
+      />
     </div>
   );
 };

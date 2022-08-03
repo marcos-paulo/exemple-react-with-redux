@@ -1,1 +1,1 @@
-export type StatusGameType = "running" | "game-over" | "winning-game";
+export type StatusGameType = "idle" | "running" | "game-over" | "winning-game";

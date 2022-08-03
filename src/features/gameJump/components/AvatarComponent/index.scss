@@ -1,0 +1,62 @@
+.avatar {
+  display: flex;
+  align-items: flex-end;
+  position: absolute;
+  bottom: 0;
+  height: var(--avatar-height);
+  width: var(--avatar-width);
+  left: var(--avatar-left);
+
+  // border: 1px solid red;
+
+  .img-idle-avatar {
+    position: absolute;
+    bottom: -10%;
+    right: -50%;
+    width: 200%;
+    // border: 1px solid blue;
+  }
+
+  .img-live-avatar {
+    position: absolute;
+    right: -33%;
+    width: 223.55%;
+    // border: 1px solid blue;
+  }
+
+  .img-dead-avatar {
+    width: 100%;
+    // border: 1px solid blue;
+  }
+
+  .img-winning-avatar {
+    width: 0;
+  }
+}
+
+.dead {
+  animation: none !important;
+}
+
+.jump {
+  animation: jump linear;
+  animation-duration: var(--avatar-jump-animate-duration);
+}
+
+@keyframes jump {
+  0% {
+    bottom: 0;
+  }
+  40% {
+    bottom: var(--avatar-animate-max-bottom);
+  }
+  50% {
+    bottom: var(--avatar-animate-max-bottom);
+  }
+  60% {
+    bottom: var(--avatar-animate-max-bottom);
+  }
+  100% {
+    bottom: 0;
+  }
+}

@@ -1,0 +1,21 @@
+.obstacle {
+  position: absolute;
+  bottom: 0;
+  right: 10%;
+  width: var(--pipe-width);
+}
+
+.animation-obstacle {
+  animation: animation-obstacle-keyframe linear infinite;
+  animation-duration: var(--obstacle-animation-duration);
+}
+
+@keyframes animation-obstacle-keyframe {
+  from {
+    right: var(--pipe-right);
+  }
+
+  to {
+    right: 100%;
+  }
+}

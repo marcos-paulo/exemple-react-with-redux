@@ -1,0 +1,18 @@
+.clouds {
+  position: absolute;
+  width: var(--clouds-width);
+  right: 30%;
+}
+
+.animate-clouds {
+  animation: clouds-animation var(--clouds-animate-duration) infinite linear;
+}
+
+@keyframes clouds-animation {
+  from {
+    right: var(--clouds-right);
+  }
+  to {
+    right: 100%;
+  }
+}
