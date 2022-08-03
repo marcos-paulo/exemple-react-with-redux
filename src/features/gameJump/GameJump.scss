@@ -12,6 +12,8 @@
   --clouds-animate-duration: 15s;
   --pipe-animate-duration: 1500ms;
 
+  --avatar-animate-max-bottom: 180px;
+
   @media screen and(max-width: 600px) {
     --avatar-width: 25px;
     --avatar-height: 40px;
@@ -22,6 +24,8 @@
 
     --pipe-width: 27px;
     --pipe-right: -27px;
+
+    --avatar-animate-max-bottom: 60px;
   }
 }
 

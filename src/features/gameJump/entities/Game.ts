@@ -19,7 +19,6 @@ export class Game {
       this.jumps += 1;
     });
     avatar.setJumpTime(500);
-    avatar.setMaxBottom(180);
 
     obstacle.setAnimateTime(1500);
   }
