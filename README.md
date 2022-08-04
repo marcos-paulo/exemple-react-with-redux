@@ -1,4 +1,6 @@
 # example-react-with-redux
+Didatic project with different features with the most diverse natures.
+
 ## Project Description <img src="https://img.shields.io/badge/status-Development-yellowgreen">
 
 This project has a purely didactic character, here a series of different features of the most diverse natures will be implemented, such as simple games, animations and others.
